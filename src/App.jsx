@@ -1,10 +1,40 @@
-import logo from './logo.svg';
+import { useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { initLocalStorage } from "./utils/localStorage";
+import { sampleData } from "./data/sampleData";
+import Login from "./pages/Login";
 
 function App() {
+  useEffect(() => {
+    initLocalStorage(sampleData);
+  }, []);
+
   return (
-    <div>
-      <h1 className='bg-black'>Heelo</h1>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/"
+        // element={<ProtectedRoute><Dashboard /></ProtectedRoute>}
+        />
+        <Route
+          path="/patients"
+        // element={<ProtectedRoute role="Admin"><Patients /></ProtectedRoute>}
+        />
+        <Route
+          path="/incidents"
+        // element={<ProtectedRoute role="Admin"><Incidents /></ProtectedRoute>}
+        />
+        <Route
+          path="/calendar"
+        // element={<ProtectedRoute role="Admin"><Calendar /></ProtectedRoute>}
+        />
+        <Route
+          path="/me"
+        // element={<ProtectedRoute role="Patient"><PatientView /></ProtectedRoute>}
+        />
+      </Routes>
+    </Router>
   );
 }
 
