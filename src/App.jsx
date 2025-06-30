@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { initLocalStorage } from "./utils/localStorage";
 import { sampleData } from "./data/sampleData";
 import Login from "./pages/Login";
+import PatientView from "./pages/PatientView";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   useEffect(() => {
@@ -31,7 +33,7 @@ function App() {
         />
         <Route
           path="/me"
-        // element={<ProtectedRoute role="Patient"><PatientView /></ProtectedRoute>}
+          element={<ProtectedRoute role="Patient"><PatientView /></ProtectedRoute>}
         />
       </Routes>
     </Router>
