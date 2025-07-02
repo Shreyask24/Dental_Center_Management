@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
-    const [email, setEmail] = useState("admin@entnt.in");
-    const [password, setPassword] = useState("admin123");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const { login } = useAuth();
     const navigate = useNavigate();
 
@@ -13,6 +13,7 @@ const Login = () => {
         const res = login(email, password);
         if (res.success) navigate("/");
         else alert(res.message);
+        console.log(res)
     };
 
     return (
