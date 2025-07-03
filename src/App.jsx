@@ -1,28 +1,15 @@
-import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { getData, initLocalStorage } from "./utils/localStorage";
-import { sampleData } from "./data/sampleData";
 import Login from "./pages/Login";
 import PatientView from "./pages/PatientView";
 import AdminDashboard from "./components/AdminDashboard";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import ManagePatients from "./pages/ManagePatients";
 import ManageAppointments from "./pages/ManageAppointments";
+import Calendar from "./pages/Calendar";
+import { useAuth } from "./context/AuthContext";
 
 function App() {
-  const [loading, setLoading] = useState(true);
-  const [loggedInUser, setLoggedInUser] = useState(null);
-
-  useEffect(() => {
-    initLocalStorage(sampleData);
-    const user = getData("loggedInUser");
-    setLoggedInUser(user);
-    console.log(user)
-    setLoading(false);
-  }, []);
-
-
-  if (loading) return <div className="p-6 text-center">Loading...</div>;
+  const { user: loggedInUser } = useAuth();
 
   return (
     <Router>
@@ -31,46 +18,26 @@ function App() {
         {loggedInUser && loggedInUser.role === "Patient" ? (
           <Route
             path="/"
-            element={
-              <ProtectedRoute role="Patient">
-                <PatientView />
-              </ProtectedRoute>
-            }
+            element={<ProtectedRoute role="Patient"><PatientView /></ProtectedRoute>}
           />
         ) : loggedInUser ? (
           <>
             <Route
               path="/"
-              element={
-                <ProtectedRoute>
-                  <AdminDashboard />
-                </ProtectedRoute>
-              }
+              element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>}
             />
             <Route
               path="/patients"
-              element={
-                <ProtectedRoute role="Admin">
-                  <ManagePatients />
-                </ProtectedRoute>
-              }
+              element={<ProtectedRoute role="Admin"><ManagePatients /></ProtectedRoute>}
             />
             <Route
               path="/incidents"
-              element={
-                <ProtectedRoute role="Admin">
-                  <ManageAppointments />
-                </ProtectedRoute>
-              }
+              element={<ProtectedRoute role="Admin"><ManageAppointments /></ProtectedRoute>}
             />
-            {/* <Route
+            <Route
               path="/calendar"
-              element={
-                <ProtectedRoute role="Admin">
-                  <div>Calendar Page</div>
-                </ProtectedRoute>
-              }
-            /> */}
+              element={<ProtectedRoute role="Admin"><Calendar /></ProtectedRoute>}
+            />
           </>
         ) : (
           <Route path="*" element={<Navigate to="/login" />} />

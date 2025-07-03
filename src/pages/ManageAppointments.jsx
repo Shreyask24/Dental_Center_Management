@@ -110,7 +110,9 @@ const ManageAppointments = () => {
                                         {new Date(item.appointmentDate).toLocaleString()}
                                     </p>
 
-                                    <p className="text-sm text-gray-500 mt-1">{item.description}</p>
+                                    <p className="text-md text-gray-500 mt-1">{item.description}</p>
+
+                                    <p className="text-sm text-gray-500 mt-1">{item.comments}</p>
 
                                     <div className="mt-3 flex gap-4 text-sm">
                                         <button

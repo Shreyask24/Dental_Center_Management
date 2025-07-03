@@ -1,30 +1,35 @@
 import React, { useState, useEffect } from "react";
 
 const PatientFormModal = ({ patient, onClose, onSave }) => {
-    const [form, setForm] = useState({
-        name: "",
-        dob: "",
-        contact: "",
-        healthInfo: "",
-    });
+    const [name, setName] = useState("");
+    const [dob, setDob] = useState("");
+    const [contact, setContact] = useState("");
+    const [healthInfo, setHealthInfo] = useState("");
 
     useEffect(() => {
-        if (patient) setForm(patient);
+        if (patient) {
+            setName(patient.name || "");
+            setDob(patient.dob || "");
+            setContact(patient.contact || "");
+            setHealthInfo(patient.healthInfo || "");
+        }
     }, [patient]);
-
-    const handleChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
-    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSave({ ...form, id: patient?.id || undefined });
+        const payload = {
+            id: patient?.id || undefined,
+            name,
+            dob,
+            contact,
+            healthInfo,
+        };
+        onSave(payload);
     };
 
     return (
         <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
             <div className="bg-white relative rounded-xl p-6 w-full max-w-md shadow-lg">
-                {/* Cross Icon */}
                 <button
                     onClick={onClose}
                     className="absolute top-5 right-5 text-gray-400 hover:text-gray-600 text-xl"
@@ -38,43 +43,47 @@ const PatientFormModal = ({ patient, onClose, onSave }) => {
                 </h3>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
+
                     <input
                         type="text"
-                        name="name"
-                        value={form.name}
-                        onChange={handleChange}
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                         placeholder="Full Name"
-                        className="w-full border p-2 rounded"
                         required
+                        className="w-full border p-2 rounded"
                     />
+
                     <input
                         type="date"
-                        name="dob"
-                        value={form.dob}
-                        onChange={handleChange}
-                        className="w-full border p-2 rounded"
+                        value={dob}
+                        onChange={(e) => setDob(e.target.value)}
                         required
+                        className="w-full border p-2 rounded"
                     />
+
                     <input
-                        type="text"
-                        name="contact"
-                        value={form.contact}
-                        onChange={handleChange}
+                        type="number"
+                        value={contact}
+                        onChange={(e) => setContact(e.target.value)}
                         placeholder="Contact Number"
-                        className="w-full border p-2 rounded"
                         required
+                        className="w-full border p-2 rounded"
                     />
+
                     <input
                         type="text"
-                        name="healthInfo"
-                        value={form.healthInfo}
-                        onChange={handleChange}
-                        placeholder="Health Info"
+                        value={healthInfo}
+                        onChange={(e) => setHealthInfo(e.target.value)}
+                        placeholder="Health Info (optional)"
                         className="w-full border p-2 rounded"
                     />
 
                     <div className="flex justify-end gap-3">
-                        <button type="button" onClick={onClose} className="text-sm text-gray-500">
+                        <button
+                            type="button"
+                            onClick={onClose}
+                            className="text-sm text-gray-500 hover:underline"
+                        >
                             Cancel
                         </button>
                         <button

@@ -5,7 +5,7 @@ const ManageAppointmentForm = ({ incident, patientId, onClose, onSave }) => {
     const [description, setDescription] = useState("");
     const [comments, setComments] = useState("");
     const [appointmentDate, setAppointmentDate] = useState("");
-    const [cost, setCost] = useState("");
+    const [cost, setCost] = useState(0);
     const [treatment, setTreatment] = useState("");
     const [status, setStatus] = useState("Upcoming");
     const [nextDate, setNextDate] = useState("");
@@ -128,11 +128,11 @@ const ManageAppointmentForm = ({ incident, patientId, onClose, onSave }) => {
 
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm mb-1">Cost (₹)</label>
+                            <label className="block text-sm mb-1">Cost ($)</label>
                             <input
                                 type="number"
                                 value={cost}
-                                onChange={(e) => setCost(e.target.value)}
+                                onChange={(e) => setCost(Number(e.target.value))}
                                 className="w-full border p-2 rounded"
                             />
                         </div>

@@ -1,20 +1,31 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 import { getData } from "../utils/localStorage";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(() => JSON.parse(localStorage.getItem("loggedInUser")));
+    const [user, setUser] = useState(() => {
+        const stored = localStorage.getItem("loggedInUser");
+        return stored ? JSON.parse(stored) : null;
+    });
 
     const login = (email, password) => {
-        const users = getData("users");
-        const matched = users.find(u => u.email === email && u.password === password);
-        if (matched) {
-            localStorage.setItem("loggedInUser", JSON.stringify(matched));
-            setUser(matched);
+        const allUsers = getData("users") || [];
+
+        const matchedUser = allUsers.find(
+            (u) => u.email === email && u.password === password
+        );
+
+        if (matchedUser) {
+            localStorage.setItem("loggedInUser", JSON.stringify(matchedUser));
+            setUser(matchedUser);
             return { success: true };
         }
-        return { success: false, message: "Invalid credentials" };
+
+        return {
+            success: false,
+            message: "Invalid credentials",
+        };
     };
 
     const logout = () => {

@@ -2,3 +2,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.highlight-appointment-day {
+    background-color: #fceed5 !important;
+    color: #8c6449 !important;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}

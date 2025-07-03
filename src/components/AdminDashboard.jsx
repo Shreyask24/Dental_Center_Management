@@ -30,7 +30,6 @@ const AdminDashboard = () => {
                 <div className="max-w-6xl mx-auto space-y-8">
                     <h1 className="text-3xl font-bold text-[#8C6449] mb-4">Admin Dashboard</h1>
 
-                    {/* KPIs */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         <div className="bg-[#FFF9F3] p-5 rounded-xl shadow text-[#6A4E3C]">
                             <h2 className="font-semibold">Total Revenue</h2>
@@ -50,7 +49,6 @@ const AdminDashboard = () => {
                         </div>
                     </div>
 
-                    {/* Top Patients */}
                     <div className="bg-[#FFF9F3] p-6 rounded-xl shadow">
                         <h2 className="text-xl font-semibold text-[#4E382A] mb-4">Top Patients</h2>
                         <ul className="list-disc list-inside text-[#6A4E3C]">
@@ -62,7 +60,6 @@ const AdminDashboard = () => {
                         </ul>
                     </div>
 
-                    {/* Next Appointments */}
                     <div className="bg-[#FFF9F3] p-6 rounded-xl shadow">
                         <h2 className="text-xl font-semibold text-[#4E382A] mb-4">Next 10 Appointments</h2>
                         {nextAppointments.length > 0 ? (

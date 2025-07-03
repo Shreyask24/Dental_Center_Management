@@ -23,7 +23,7 @@ const PatientView = () => {
             <PatientNavbar />
 
             <main className="min-h-screen bg-[#F7F1E1] py-10 px-4">
-                <section className="max-w-5xl mx-auto bg-[#FFF9F3] rounded-2xl shadow-lg p-8">
+                <section className="max-w-5xl mx-auto bg-[#FFF9F3] rounded-2xl p-8">
 
                     <header className="text-center mb-10">
                         <h1 className="text-3xl font-bold text-[#8C6449]">Welcome, {patient?.name}</h1>
@@ -37,7 +37,7 @@ const PatientView = () => {
                         </h2>
                         {upcoming.length ? (
                             upcoming.map(item => (
-                                <div key={item.id} className="border border-[#EADBC8] rounded p-4 mb-4 bg-[#FFF9F3] shadow">
+                                <div key={item.id} className="border border-[#EADBC8] rounded p-4 mb-4 bg-[#FFF9F3]">
                                     <h3 className="text-lg font-medium text-[#6A4E3C]">{item.title}</h3>
                                     <p className="text-sm text-[#7D6755]">Date: {new Date(item.appointmentDate).toLocaleString()}</p>
                                     {item.nextDate && (
@@ -61,7 +61,7 @@ const PatientView = () => {
                                 {incident.map(item => (
                                     <div
                                         key={item.id}
-                                        className="bg-[#FDF7EE] border border-[#EADBC8] rounded-xl p-6 shadow-md"
+                                        className="bg-[#FDF7EE] border border-[#EADBC8] rounded-xl p-6"
                                     >
                                         <div className="flex justify-between items-center mb-2">
                                             <h3 className="text-xl font-semibold text-[#6A4E3C]">{item.title}</h3>
@@ -80,7 +80,7 @@ const PatientView = () => {
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-[#4E382A]">
                                             <p className="text-md"><strong>Description:</strong> {item.description}</p>
                                             <p className="text-sm"><strong>Comments:</strong> {item.comments}</p>
-                                            <p className="text-sm"><strong>Cost:</strong> ₹{item.cost}</p>
+                                            <p className="text-sm"><strong>Cost:</strong> ${item.cost}</p>
                                         </div>
 
                                         {item.files?.length > 0 && (
