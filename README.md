@@ -6,7 +6,7 @@ A modern, fully responsive **frontend-only** React app that simulates a complete
 
 ## Demo Links
 
-- <a href="https://shreyas-dental-app.netlify.app/" target="_blank" rel="noopener noreferrer">View Deployed App</a>  
+- [View Deployed App](https://shreyas-dental-app.netlify.app/)
 - **GitHub Repo**: [github.com/Shreyask24/Dental_Center_Management](https://github.com/Shreyask24/Dental_Center_Management)
 
 ---
