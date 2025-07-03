@@ -7,9 +7,16 @@ import ManagePatients from "./pages/ManagePatients";
 import ManageAppointments from "./pages/ManageAppointments";
 import Calendar from "./pages/Calendar";
 import { useAuth } from "./context/AuthContext";
+import { initLocalStorage } from "./utils/localStorage";
+import { useEffect } from "react";
+import { sampleData } from "./data/sampleData";
 
 function App() {
   const { user: loggedInUser } = useAuth();
+
+  useEffect(() => {
+    initLocalStorage(sampleData);
+  }, []);
 
   return (
     <Router>
