@@ -7,6 +7,7 @@ import PatientView from "./pages/PatientView";
 import AdminDashboard from "./components/AdminDashboard";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import ManagePatients from "./pages/ManagePatients";
+import ManageAppointments from "./pages/ManageAppointments";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -54,14 +55,14 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            {/* <Route
+            <Route
               path="/incidents"
               element={
                 <ProtectedRoute role="Admin">
-                  <ManagePatients />
+                  <ManageAppointments />
                 </ProtectedRoute>
               }
-            /> */}
+            />
             {/* <Route
               path="/calendar"
               element={

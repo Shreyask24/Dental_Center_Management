@@ -18,11 +18,10 @@ const Login = () => {
 
     return (
         <div className="min-h-screen flex items-center justify-center px-4 bg-[#F7F1E1]">
-            <div className="bg-[#FFF9F3] shadow-xl rounded-xl p-8 w-full max-w-md">
+            <div className="bg-[#FFF9F3] rounded-xl p-8 w-full max-w-md">
                 <h2 className="text-3xl font-semibold text-[#8C6449] text-center mb-6">Authentication</h2>
 
                 <form onSubmit={handleSubmit} className="space-y-5">
-                    {/* Email Field */}
                     <div>
                         <label className="block text-[#6A4E3C] mb-1">Email</label>
                         <input
@@ -35,7 +34,6 @@ const Login = () => {
                         />
                     </div>
 
-                    {/* Password Field */}
                     <div>
                         <label className="block text-[#6A4E3C] mb-1">Password</label>
                         <input
@@ -48,7 +46,6 @@ const Login = () => {
                         />
                     </div>
 
-                    {/* Sign In Button */}
                     <button
                         type="submit"
                         className="w-full py-3 bg-[#A67B5B] hover:bg-[#8C6449] text-white font-medium rounded-lg transition"

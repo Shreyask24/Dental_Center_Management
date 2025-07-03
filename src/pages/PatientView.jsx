@@ -1,7 +1,7 @@
 import React from 'react';
-import { getData } from '../utils/localStorage';
 import { Navigate } from 'react-router-dom';
 import PatientNavbar from '../components/PatientNavbar';
+import { getData } from '../utils/localStorage';
 
 const PatientView = () => {
     const user = getData("loggedInUser");
@@ -9,93 +9,85 @@ const PatientView = () => {
     const incidents = getData("incidents");
 
     if (!user || user.role !== "Patient") {
-        alert("You are not logged in as Patient");
+        alert("Access denied. Please login as Patient.");
         return <Navigate to="/login" />;
     }
 
-    const myPatient = patients.find(p => p.id === user.patientId);
-    const myIncidents = incidents.filter(i => i.patientId === user.patientId);
+    const patient = patients.find(p => p.id === user.patientId);
+    const incident = incidents.filter(i => i.patientId === user.patientId);
     const now = new Date();
-    const upcoming = myIncidents.filter(i => new Date(i.appointmentDate) > now);
-    const past = myIncidents.filter(i => new Date(i.appointmentDate) <= now);
+    const upcoming = incident.filter(i => new Date(i.appointmentDate) > now);
 
     return (
         <>
             <PatientNavbar />
 
-            <div className="min-h-screen bg-[#F7F1E1] py-10 px-4">
-                <div className="max-w-5xl mx-auto bg-[#FFF9F3] rounded-2xl shadow-lg p-8">
-                    <div className="text-center mb-10">
-                        <h1 className="text-3xl font-extrabold text-[#8C6449]">Welcome, {myPatient?.name}</h1>
-                        <p className="text-[#6A4E3C] mt-2">Contact: <span className="font-medium">{myPatient?.contact}</span></p>
-                        <p className="text-[#6A4E3C]">DOB: <span className="font-medium">{myPatient?.dob}</span></p>
-                    </div>
+            <main className="min-h-screen bg-[#F7F1E1] py-10 px-4">
+                <section className="max-w-5xl mx-auto bg-[#FFF9F3] rounded-2xl shadow-lg p-8">
 
-                    {/* Upcoming Appointments */}
-                    <section className="mb-10">
-                        <h2 className="text-2xl font-bold text-[#4E382A] border-b border-[#D4C3AE] pb-2 mb-6">
+                    <header className="text-center mb-10">
+                        <h1 className="text-3xl font-bold text-[#8C6449]">Welcome, {patient?.name}</h1>
+                        <p className="text-[#6A4E3C] mt-2">Contact: <strong>{patient?.contact}</strong></p>
+                        <p className="text-[#6A4E3C]">DOB: <strong>{patient?.dob}</strong></p>
+                    </header>
+
+                    <div className="mb-10">
+                        <h2 className="text-2xl font-semibold text-[#4E382A] border-b border-[#D4C3AE] pb-2 mb-4">
                             Upcoming Appointments
                         </h2>
-                        {upcoming.length === 0 ? (
-                            <p className="text-[#7D6755]">You have no upcoming appointments.</p>
-                        ) : (
-                            upcoming.map(incident => (
-                                <div key={incident.id} className="border border-[#EADBC8] rounded p-4 mb-4 bg-[#FFF9F3] shadow">
-                                    <h3 className="text-lg font-medium text-[#6A4E3C]">{incident.title}</h3>
-                                    <p className="text-sm text-[#7D6755]">Date: {new Date(incident.appointmentDate).toLocaleString()}</p>
-                                    {incident.nextDate && (
-                                        <p className="text-sm text-[#A67B5B]">Next visit: {new Date(incident.nextDate).toLocaleDateString()}</p>
+                        {upcoming.length ? (
+                            upcoming.map(item => (
+                                <div key={item.id} className="border border-[#EADBC8] rounded p-4 mb-4 bg-[#FFF9F3] shadow">
+                                    <h3 className="text-lg font-medium text-[#6A4E3C]">{item.title}</h3>
+                                    <p className="text-sm text-[#7D6755]">Date: {new Date(item.appointmentDate).toLocaleString()}</p>
+                                    {item.nextDate && (
+                                        <p className="text-sm text-[#A67B5B]">Next visit: {new Date(item.nextDate).toLocaleDateString()}</p>
                                     )}
-                                    <p className="text-sm text-[#4E382A]">Comments: {incident.comments}</p>
+                                    <p className="text-sm text-[#4E382A]">Comments: {item.comments}</p>
                                 </div>
                             ))
+                        ) : (
+                            <p className="text-[#7D6755]">No upcoming appointments.</p>
                         )}
-                    </section>
+                    </div>
 
-                    {/* Treatment History */}
-                    <section>
-                        <h2 className="text-2xl font-bold text-[#4E382A] border-b border-[#D4C3AE] pb-2 mb-6">
+                    <div>
+                        <h2 className="text-2xl font-semibold text-[#4E382A] border-b border-[#D4C3AE] pb-2 mb-4">
                             Treatment History
                         </h2>
 
-                        {myIncidents.length === 0 ? (
-                            <p className="text-[#7D6755] text-center">No appointments found.</p>
-                        ) : (
+                        {incident.length ? (
                             <div className="space-y-6">
-                                {myIncidents.map(incident => (
+                                {incident.map(item => (
                                     <div
-                                        key={incident.id}
-                                        className="bg-[#FDF7EE] border border-[#EADBC8] rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow duration-300"
+                                        key={item.id}
+                                        className="bg-[#FDF7EE] border border-[#EADBC8] rounded-xl p-6 shadow-md"
                                     >
-                                        <div className='flex justify-between items-center'>
-                                            <h3 className="text-xl font-semibold text-[#6A4E3C]">{incident.title}</h3>
-                                            <div
-                                                className={`inline-block px-3 py-1 text-xs font-semibold rounded-full 
-                                                    ${incident.status === "Completed"
-                                                        ? "bg-green-100 text-green-800"
-                                                        : incident.status === "Upcoming"
-                                                            ? "bg-yellow-100 text-yellow-800"
-                                                            : "bg-red-100 text-red-800"
-                                                    }`}
-                                            >
-                                                {incident.status}
-                                            </div>
+                                        <div className="flex justify-between items-center mb-2">
+                                            <h3 className="text-xl font-semibold text-[#6A4E3C]">{item.title}</h3>
+                                            <span className={`px-3 py-1 text-xs font-semibold rounded-full
+                        ${item.status === "Completed" ? "bg-green-100 text-green-800" :
+                                                    item.status === "Upcoming" ? "bg-yellow-100 text-yellow-800" :
+                                                        "bg-red-100 text-red-800"}`}>
+                                                {item.status}
+                                            </span>
                                         </div>
 
                                         <p className="text-sm text-[#7D6755] mb-2">
-                                            Appointment: <span className="font-medium">{new Date(incident.appointmentDate).toLocaleString()}</span>
+                                            Appointment: <strong>{new Date(item.appointmentDate).toLocaleString()}</strong>
                                         </p>
 
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-[#4E382A]">
-                                            <p className="text-sm"><span className="font-medium">Comments:</span> {incident.comments}</p>
-                                            <p className="text-sm"><span className="font-medium">Cost:</span> ₹{incident.cost}</p>
+                                            <p className="text-md"><strong>Description:</strong> {item.description}</p>
+                                            <p className="text-sm"><strong>Comments:</strong> {item.comments}</p>
+                                            <p className="text-sm"><strong>Cost:</strong> ₹{item.cost}</p>
                                         </div>
 
-                                        {incident.files?.length > 0 && (
+                                        {item.files?.length > 0 && (
                                             <div className="mt-4">
-                                                <p className="text-sm text-[#6A4E3C] font-medium mb-1">📁 Attached Files:</p>
+                                                <p className="text-sm font-medium text-[#6A4E3C] mb-1">📁 Attached Files:</p>
                                                 <ul className="list-disc list-inside text-sm text-[#8C6449]">
-                                                    {incident.files.map((file, idx) => (
+                                                    {item.files.map((file, idx) => (
                                                         <li key={idx}>
                                                             <a
                                                                 href={file.url}
@@ -115,10 +107,13 @@ const PatientView = () => {
                                     </div>
                                 ))}
                             </div>
+                        ) : (
+                            <p className="text-[#7D6755] text-center">No appointments found.</p>
                         )}
-                    </section>
-                </div>
-            </div>
+                    </div>
+
+                </section>
+            </main>
         </>
     );
 };

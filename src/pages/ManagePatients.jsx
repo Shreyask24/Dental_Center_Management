@@ -24,10 +24,8 @@ const ManagePatients = () => {
     const handleSave = (newPatient) => {
         let updated;
         if (newPatient.id) {
-            // Edit
             updated = patients.map((p) => (p.id === newPatient.id ? newPatient : p));
         } else {
-            // Add
             newPatient.id = "p" + Date.now();
             updated = [...patients, newPatient];
         }
